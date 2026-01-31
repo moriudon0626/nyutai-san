@@ -419,36 +419,36 @@ export default function AdminPage() {
                     ) : (
                         <>
                             {/* Tab UI */}
-                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-                                <button
-                                    className={`btn ${activeTab === 'students' ? 'btn-primary' : ''}`}
-                                    onClick={() => setActiveTab('students')}
-                                >
-                                    <Users size={16} style={{ marginRight: '0.5rem' }} />
-                                    生徒管理
-                                </button>
-                                <button
-                                    className={`btn ${activeTab === 'logs' ? 'btn-primary' : ''}`}
-                                    onClick={() => setActiveTab('logs')}
-                                >
+                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <button
+                                        className={`btn ${activeTab === 'students' ? 'btn-primary' : ''}`}
+                                        onClick={() => setActiveTab('students')}
+                                    >
+                                        <Users size={16} style={{ marginRight: '0.5rem' }} />
+                                        生徒管理
+                                    </button>
+                                    <button
+                                        className={`btn ${activeTab === 'logs' ? 'btn-primary' : ''}`}
+                                        onClick={() => setActiveTab('logs')}
+                                    >
+                                        <QrCode size={16} style={{ marginRight: '0.5rem' }} />
+                                        入退室ログ
+                                    </button>
+                                </div>
+                                <a href={`/scan/${selectedStore}`} target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'var(--accent)', color: 'white' }}>
                                     <QrCode size={16} style={{ marginRight: '0.5rem' }} />
-                                    入退室ログ
-                                </button>
+                                    スキャン画面を開く
+                                </a>
                             </div>
 
                             {activeTab === 'students' ? (
                                 <>
                                     <div className="glass card" style={{ marginBottom: '1.5rem' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                                            <h2 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                <Users size={20} />
-                                                生徒登録 ({stores.find(s => s.id === selectedStore)?.name})
-                                            </h2>
-                                            <a href={`/scan/${selectedStore}`} target="_blank" rel="noopener noreferrer" className="btn" style={{ background: 'var(--accent)', color: 'white' }}>
-                                                <QrCode size={16} style={{ marginRight: '0.5rem' }} />
-                                                スキャン画面を開く
-                                            </a>
-                                        </div>
+                                        <h2 style={{ fontSize: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                                            <Users size={20} />
+                                            生徒登録 ({stores.find(s => s.id === selectedStore)?.name})
+                                        </h2>
 
                                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr auto', gap: '0.75rem', alignItems: 'end' }}>
                                             <div>
