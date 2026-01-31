@@ -1,7 +1,11 @@
 import { getLogs, clearLogs } from '@/lib/db'
 import { NextResponse } from 'next/server'
+import { checkApiAuth } from '@/lib/auth'
 
 export async function GET(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
+
     const { searchParams } = new URL(request.url)
     const storeId = searchParams.get('storeId')
 
@@ -14,6 +18,9 @@ export async function GET(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
+
     const { searchParams } = new URL(request.url)
     const storeId = searchParams.get('storeId')
 

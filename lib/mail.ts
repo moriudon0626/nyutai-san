@@ -37,6 +37,9 @@ export async function sendAttendanceEmail({ to, studentName, type, storeName, ti
       <p style="font-size: 14px; color: #64748b;">※本メールはシステムによる自動送信です。</p>
       <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
       <p style="font-size: 12px; color: #94a3b8; text-align: center;">入退室管理サービス「入退さん」</p>
+      <p style="font-size: 11px; color: #94a3b8; text-align: center; margin-top: 10px;">
+        運営: 合同会社あさあさ ｜ <a href="https://www.chocoma.me/privacy" style="color: #6366f1;">プライバシーポリシー</a>
+      </p>
     </div>
     `;
 

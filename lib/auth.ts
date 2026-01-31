@@ -41,3 +41,27 @@ export function verifyCredentials(email: string, password: string): boolean {
 
 // セッションクッキー名
 export const SESSION_COOKIE_NAME = 'nyutai_session'
+
+// API用認証チェック（Cookieからトークンを検証）
+export function checkApiAuth(request: Request): { authenticated: boolean; error?: Response } {
+    const cookieHeader = request.headers.get('cookie') || ''
+    const cookies = Object.fromEntries(
+        cookieHeader.split(';').map(c => {
+            const [key, ...val] = c.trim().split('=')
+            return [key, val.join('=')]
+        })
+    )
+    const token = cookies[SESSION_COOKIE_NAME]
+
+    if (!token || !validateSessionToken(token)) {
+        return {
+            authenticated: false,
+            error: new Response(JSON.stringify({ error: '認証が必要です' }), {
+                status: 401,
+                headers: { 'Content-Type': 'application/json' }
+            })
+        }
+    }
+
+    return { authenticated: true }
+}

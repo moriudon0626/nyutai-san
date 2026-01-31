@@ -2,8 +2,11 @@ import { getStudents, saveStudent, deleteStudent } from '@/lib/db'
 import { Student } from '@/lib/models'
 import { NextResponse } from 'next/server'
 import { syncStudentToResend } from '@/lib/mail'
+import { checkApiAuth } from '@/lib/auth'
 
 export async function GET(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
     const { searchParams } = new URL(request.url)
     const storeId = searchParams.get('storeId')
     if (!storeId) return NextResponse.json({ error: 'Missing storeId' }, { status: 400 })
@@ -13,6 +16,9 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
+
     const body = await request.json()
     await saveStudent(body)
 
@@ -25,6 +31,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
+
     const { searchParams } = new URL(request.url)
     const storeId = searchParams.get('storeId')
     const studentId = searchParams.get('studentId')
@@ -38,6 +47,9 @@ export async function DELETE(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    const auth = checkApiAuth(request)
+    if (!auth.authenticated) return auth.error
+
     const body = await request.json()
     const { id, storeId } = body
     if (!id || !storeId) return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
