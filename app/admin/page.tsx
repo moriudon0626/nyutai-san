@@ -10,7 +10,12 @@ export default function AdminPage() {
     const [activeTab, setActiveTab] = useState<'students' | 'logs'>('students')
     const [logs, setLogs] = useState<any[]>([])
     const [stores, setStores] = useState<any[]>([])
-    const [selectedStore, setSelectedStore] = useState<string>('')
+    const [selectedStore, setSelectedStore] = useState<string>(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('selectedStore') || ''
+        }
+        return ''
+    })
     const [students, setStudents] = useState<any[]>([])
     const [newStudent, setNewStudent] = useState({ id: '', name: '', email: '' })
     const [loading, setLoading] = useState(false)
@@ -44,6 +49,13 @@ export default function AdminPage() {
             fetch('/api/stores').then(res => res.json()).then(setStores)
         }
     }, [isAuthenticated])
+
+    // 店舗選択をlocalStorageに保存
+    useEffect(() => {
+        if (selectedStore) {
+            localStorage.setItem('selectedStore', selectedStore)
+        }
+    }, [selectedStore])
 
     const [filterStudentId, setFilterStudentId] = useState<string>('')
 

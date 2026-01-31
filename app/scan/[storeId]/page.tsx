@@ -52,7 +52,8 @@ export default function ScanPage() {
                             }
                         },
                         async (decodedText) => {
-                            if (scanInProgress.current || result) return;
+                            // 既にスキャン中の場合は無視
+                            if (scanInProgress.current) return;
 
                             // スキャン成功時のフィードバック (即座に反応)
                             try {
@@ -73,7 +74,7 @@ export default function ScanPage() {
             };
             start();
         }
-    }, [scannerActive, isScanning, result]); // Added result to dependencies to ensure latest state is captured
+    }, [scannerActive, isScanning]); // resultを依存配列から削除して二重発火を防止
 
     const handleScanResult = async (decodedText: string) => {
         try {
