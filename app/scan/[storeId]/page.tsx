@@ -9,6 +9,7 @@ export default function ScanPage() {
     const params = useParams()
     const storeId = params.storeId as string
     const [type, setType] = useState<'in' | 'out'>('in')
+    const typeRef = useRef<'in' | 'out'>('in')
     const [result, setResult] = useState<{ type: 'success' | 'error', studentName?: string, message: string } | null>(null)
     const [history, setHistory] = useState<any[]>([])
     const scanInProgress = useRef(false)
@@ -18,6 +19,11 @@ export default function ScanPage() {
     useEffect(() => {
         setIsClient(true)
     }, [])
+
+    // typeが変更されたときにtypeRefを同期
+    useEffect(() => {
+        typeRef.current = type
+    }, [type])
 
     const [scannerActive, setScannerActive] = useState(false)
     const [isScanning, setIsScanning] = useState(false)
@@ -77,7 +83,7 @@ export default function ScanPage() {
                 body: JSON.stringify({
                     studentId: decodedText,
                     storeId: storeId,
-                    type: type
+                    type: typeRef.current
                 })
             })
 
