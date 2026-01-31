@@ -7,7 +7,7 @@ import { Plus, Store, Users, QrCode, Mail, ExternalLink, Trash2, Edit, Settings,
 export default function AdminPage() {
     const router = useRouter()
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
-    const [activeTab, setActiveTab] = useState<'students' | 'logs'>('students')
+    const [activeTab, setActiveTab] = useState<'students' | 'logs'>('logs')
     const [logs, setLogs] = useState<any[]>([])
     const [stores, setStores] = useState<any[]>([])
     const [selectedStore, setSelectedStore] = useState<string>(() => {
