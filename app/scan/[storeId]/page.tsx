@@ -87,7 +87,7 @@ export default function ScanPage() {
                 setResult({
                     type: 'success',
                     studentName: resData.log.studentName,
-                    message: `${type === 'in' ? '入室' : '退室'}を記録しました`
+                    message: `${resData.log.type === 'in' ? '入室' : '退室'}を記録しました`
                 })
 
                 const newEntry = {

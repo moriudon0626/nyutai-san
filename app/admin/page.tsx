@@ -1,9 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Store, Users, QrCode, Mail, ExternalLink, Trash2, Edit, Settings } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Plus, Store, Users, QrCode, Mail, ExternalLink, Trash2, Edit, Settings, LogOut } from 'lucide-react'
 
 export default function AdminPage() {
+    const router = useRouter()
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
     const [activeTab, setActiveTab] = useState<'students' | 'logs'>('students')
     const [logs, setLogs] = useState<any[]>([])
     const [stores, setStores] = useState<any[]>([])
@@ -16,9 +19,31 @@ export default function AdminPage() {
     const [editingStudent, setEditingStudent] = useState<any | null>(null)
     const [editingStore, setEditingStore] = useState<any | null>(null)
 
+    // 認証チェック
     useEffect(() => {
-        fetch('/api/stores').then(res => res.json()).then(setStores)
-    }, [])
+        fetch('/api/auth/check')
+            .then(res => res.json())
+            .then(data => {
+                if (data.authenticated) {
+                    setIsAuthenticated(true)
+                } else {
+                    router.push('/login')
+                }
+            })
+            .catch(() => router.push('/login'))
+    }, [router])
+
+    // ログアウト処理
+    const handleLogout = async () => {
+        await fetch('/api/auth/logout', { method: 'POST' })
+        router.push('/login')
+    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetch('/api/stores').then(res => res.json()).then(setStores)
+        }
+    }, [isAuthenticated])
 
     const [filterStudentId, setFilterStudentId] = useState<string>('')
 
@@ -142,8 +167,61 @@ export default function AdminPage() {
         setLoading(false)
     }
 
+    // 認証チェック中はローディング表示
+    if (isAuthenticated === null) {
+        return (
+            <div style={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'var(--background)'
+            }}>
+                <div style={{ textAlign: 'center' }}>
+                    <div style={{
+                        width: '40px',
+                        height: '40px',
+                        border: '3px solid var(--border)',
+                        borderTopColor: 'var(--primary)',
+                        borderRadius: '50%',
+                        animation: 'spin 1s linear infinite',
+                        margin: '0 auto 1rem'
+                    }} />
+                    <p style={{ color: 'var(--text-muted)' }}>認証確認中...</p>
+                </div>
+                <style jsx>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+            </div>
+        )
+    }
+
     return (
         <div className="container">
+            {/* Logout Button - Fixed Position */}
+            <button
+                onClick={handleLogout}
+                style={{
+                    position: 'fixed',
+                    top: '1rem',
+                    right: '1rem',
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    borderRadius: '10px',
+                    padding: '0.5rem 1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    color: '#ef4444',
+                    cursor: 'pointer',
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    zIndex: 100,
+                    transition: 'all 0.2s'
+                }}
+            >
+                <LogOut size={16} />
+                ログアウト
+            </button>
+
             {/* Store Edit Modal */}
             {editingStore && (
                 <div style={{
