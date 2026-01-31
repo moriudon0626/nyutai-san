@@ -486,10 +486,10 @@ export default function AdminPage() {
                                                             </span>
                                                         </td>
                                                         <td>
-                                                            {log.mailStatus === 'sent' && <Mail size={16} title="送信成功" style={{ color: '#22c55e' }} />}
-                                                            {log.mailStatus === 'failed' && <Mail size={16} title="送信エラー（宛先設定やResendの制限を確認）" style={{ color: '#ef4444' }} />}
-                                                            {log.mailStatus === 'simulated' && <Mail size={16} title="テスト送信（キー未設定）" style={{ color: '#f59e0b' }} />}
-                                                            {(!log.mailStatus || log.mailStatus === 'not_sent') && <Mail size={16} title="宛先なし・未送信" style={{ opacity: 0.2 }} />}
+                                                            {log.mailStatus === 'sent' && <span title="送信成功"><Mail size={16} style={{ color: '#22c55e' }} /></span>}
+                                                            {log.mailStatus === 'failed' && <span title="送信エラー（宛先設定やResendの制限を確認）"><Mail size={16} style={{ color: '#ef4444' }} /></span>}
+                                                            {log.mailStatus === 'simulated' && <span title="テスト送信（キー未設定）"><Mail size={16} style={{ color: '#f59e0b' }} /></span>}
+                                                            {(!log.mailStatus || log.mailStatus === 'not_sent') && <span title="宛先なし・未送信"><Mail size={16} style={{ opacity: 0.2 }} /></span>}
                                                         </td>
                                                         <td style={{ color: 'var(--text-muted)' }}>{log.studentId}</td>
                                                     </tr>

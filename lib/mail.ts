@@ -68,11 +68,12 @@ export async function syncStudentToResend(student: { name: string, email: string
 
     try {
         const audiences = await resend.audiences.list();
-        let audienceId = audiences.data?.[0]?.id;
+        const audienceList = audiences.data as any;
+        let audienceId = audienceList?.[0]?.id;
 
         if (!audienceId) {
             const newAudience = await resend.audiences.create({ name: '入退さん保護者様' });
-            audienceId = newAudience.data?.id;
+            audienceId = (newAudience.data as any)?.id;
         }
 
         if (audienceId) {

@@ -39,13 +39,8 @@ export default function ScanPage() {
                                 return { width: min * 0.8, height: min * 0.8 };
                             },
                             aspectRatio: 1.0,
-                            // ネイティブAPIが使える場合はそれを使う（爆速）
-                            experimentalFeatures: {
-                                useBarCodeDetectorIfSupported: true
-                            },
                             videoConstraints: {
                                 facingMode: "environment",
-                                focusMode: "continuous",
                                 width: { ideal: 1280 },
                                 height: { ideal: 720 }
                             }
