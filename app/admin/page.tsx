@@ -241,7 +241,7 @@ export default function AdminPage() {
                     background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     zIndex: 200, backdropFilter: 'blur(4px)'
                 }}>
-                    <div className="glass card" style={{ width: '400px', padding: '2rem' }}>
+                    <div className="glass card" style={{ width: '100%', maxWidth: '400px', padding: '1.5rem', margin: '0 1rem' }}>
                         <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>店舗情報の編集</h2>
                         <div style={{ marginBottom: '1.5rem' }}>
                             <label style={{ fontSize: '0.75rem', fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>店舗名</label>
@@ -273,7 +273,7 @@ export default function AdminPage() {
                     background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     zIndex: 200, backdropFilter: 'blur(4px)'
                 }}>
-                    <div className="glass card" style={{ width: '400px', padding: '2rem' }}>
+                    <div className="glass card" style={{ width: '100%', maxWidth: '400px', padding: '1.5rem', margin: '0 1rem' }}>
                         <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>生徒情報の編集</h2>
                         <div style={{ marginBottom: '1rem' }}>
                             <label style={{ fontSize: '0.75rem', fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>生徒ID</label>
@@ -317,7 +317,7 @@ export default function AdminPage() {
                     background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     zIndex: 100, backdropFilter: 'blur(4px)'
                 }}>
-                    <div className="glass card" style={{ width: '400px', padding: '2rem' }}>
+                    <div className="glass card" style={{ width: '100%', maxWidth: '400px', padding: '1.5rem', margin: '0 1rem' }}>
                         <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>新規店舗登録</h2>
                         <div style={{ marginBottom: '1rem' }}>
                             <label style={{ fontSize: '0.75rem', fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>店舗ID (英数字のみ)</label>
@@ -359,7 +359,7 @@ export default function AdminPage() {
                 </div>
             </header>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 3fr', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: '1rem' }} className="admin-grid">
                 <aside>
                     <div className="glass card">
                         <h3 style={{ fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -450,7 +450,7 @@ export default function AdminPage() {
                                             生徒登録 ({stores.find(s => s.id === selectedStore)?.name})
                                         </h2>
 
-                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1.5fr auto', gap: '0.75rem', alignItems: 'end' }}>
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }} className="student-form">
                                             <div>
                                                 <label style={{ fontSize: '0.75rem', fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>生徒ID (固有番号)</label>
                                                 <input className="input" placeholder="例: 1001" value={newStudent.id} onChange={e => setNewStudent({ ...newStudent, id: e.target.value })} />
@@ -463,7 +463,7 @@ export default function AdminPage() {
                                                 <label style={{ fontSize: '0.75rem', fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>保護者メールアドレス</label>
                                                 <input className="input" placeholder="例: parent@example.com" value={newStudent.email} onChange={e => setNewStudent({ ...newStudent, email: e.target.value })} />
                                             </div>
-                                            <button className="btn btn-primary" onClick={handleAddStudent}>登録</button>
+                                            <button className="btn btn-primary" onClick={handleAddStudent} style={{ marginTop: '0.5rem' }}>登録</button>
                                         </div>
                                     </div>
 
@@ -473,7 +473,7 @@ export default function AdminPage() {
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>氏名</th>
-                                                    <th>連絡先</th>
+                                                    <th className="mobile-hide">連絡先</th>
                                                     <th style={{ textAlign: 'right' }}>操作</th>
                                                 </tr>
                                             </thead>
@@ -486,23 +486,23 @@ export default function AdminPage() {
                                                     <tr key={s.id}>
                                                         <td style={{ fontWeight: '600' }}>{s.id}</td>
                                                         <td>{s.name}</td>
-                                                        <td style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
+                                                        <td className="mobile-hide" style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
                                                             <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                                                                 <Mail size={14} />
                                                                 {s.email || '--'}
                                                             </span>
                                                         </td>
                                                         <td style={{ textAlign: 'right' }}>
-                                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                                                            <div style={{ display: 'flex', gap: '0.25rem', justifyContent: 'flex-end' }}>
                                                                 <a
                                                                     href={`https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(s.id)}&ecc=Q&margin=2`}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
                                                                     className="btn"
                                                                     style={{ padding: '0.25rem 0.5rem', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--primary)' }}
+                                                                    title="QRコードを開く"
                                                                 >
-                                                                    <QrCode size={14} style={{ marginRight: '0.25rem' }} />
-                                                                    QR
+                                                                    <QrCode size={14} />
                                                                 </a>
                                                                 <button
                                                                     className="btn"
@@ -593,6 +593,24 @@ export default function AdminPage() {
                     )}
                 </main>
             </div>
+            <style jsx>{`
+                @media (min-width: 769px) {
+                    .admin-grid {
+                        grid-template-columns: 250px 1fr !important;
+                    }
+                    .student-form {
+                        flex-direction: row !important;
+                        align-items: flex-end !important;
+                    }
+                    .student-form > div {
+                        flex: 1;
+                    }
+                    .student-form > button {
+                        margin-top: 0 !important;
+                        flex-shrink: 0;
+                    }
+                }
+            `}</style>
         </div>
     )
 }
